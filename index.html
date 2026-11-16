@@ -1,3 +1,819 @@
-<html>
-    
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Board-Line — Platform Belajar Akademik & Skill Kreatif</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Google Fonts: Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              bg: '#FAF7FD',
+              lavender: '#F3E8FF',
+              purple: '#A855F7',
+              violet: '#9333EA',
+              pink: '#EC4899',
+              dark: '#1E1B2E',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Palet Gradasi Utama sesuai Referensi Desain */
+    .bg-brand-gradient {
+      background: linear-gradient(135deg, #B565F2 0%, #EE74B6 100%);
+    }
+    .bg-brand-gradient-hover:hover {
+      background: linear-gradient(135deg, #A24CE8 0%, #E55EA7 100%);
+    }
+    .text-brand-gradient {
+      background: linear-gradient(135deg, #A855F7 0%, #EC4899 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    /* Transisi halus untuk FAQ Accordion */
+    .faq-content {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.3s ease-out;
+    }
+    .faq-item.active .faq-content {
+      grid-template-rows: 1fr;
+    }
+    .faq-inner {
+      overflow: hidden;
+    }
+    .faq-item.active .faq-icon {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body class="bg-brand-bg text-brand-dark font-sans antialiased selection:bg-purple-200 selection:text-purple-900">
+
+  <!-- ==================== NAVBAR ==================== -->
+  <header class="sticky top-0 z-50 bg-brand-bg/90 backdrop-blur-md border-b border-purple-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo Brand -->
+        <a href="#" class="flex items-center gap-2">
+          <span class="text-2xl font-extrabold tracking-tight text-brand-dark">
+            Board-<span class="text-brand-gradient">Line.</span>
+          </span>
+        </a>
+
+        <!-- Desktop Navigation -->
+        <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-gray-600">
+          <a href="#about" class="hover:text-purple-600 transition">Tentang Kami</a>
+          <a href="#features" class="hover:text-purple-600 transition">Fitur</a>
+          <a href="#pricing" class="hover:text-purple-600 transition">Paket Belajar</a>
+          <a href="#faq" class="hover:text-purple-600 transition">FAQ</a>
+          <a href="#contact" class="hover:text-purple-600 transition">Kontak</a>
+        </nav>
+
+        <!-- Desktop Action Buttons -->
+        <div class="hidden md:flex items-center gap-3">
+          <a href="#pricing" class="px-5 py-2.5 text-sm font-semibold text-brand-dark border border-purple-200 rounded-xl hover:bg-purple-50 transition">
+            Lihat Paket
+          </a>
+          <button onclick="openModal('Daftar Kelas Board-Line')" class="px-5 py-2.5 text-sm font-semibold text-white bg-brand-gradient bg-brand-gradient-hover rounded-xl shadow-md shadow-purple-200 transition">
+            Mulai Belajar
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-btn" class="md:hidden p-2 rounded-lg text-gray-700 hover:bg-purple-100 focus:outline-none" aria-label="Buka Menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Dropdown Navigation -->
+    <div id="mobile-menu" class="hidden md:hidden bg-white border-b border-purple-100 px-4 pt-2 pb-6 space-y-3 shadow-lg">
+      <a href="#about" class="block py-2 text-sm font-semibold text-gray-700 hover:text-purple-600">Tentang Kami</a>
+      <a href="#features" class="block py-2 text-sm font-semibold text-gray-700 hover:text-purple-600">Fitur</a>
+      <a href="#pricing" class="block py-2 text-sm font-semibold text-gray-700 hover:text-purple-600">Paket Belajar</a>
+      <a href="#faq" class="block py-2 text-sm font-semibold text-gray-700 hover:text-purple-600">FAQ</a>
+      <a href="#contact" class="block py-2 text-sm font-semibold text-gray-700 hover:text-purple-600">Kontak</a>
+      <div class="pt-3 flex flex-col gap-2 border-t border-gray-100">
+        <a href="#pricing" class="w-full text-center py-2.5 text-sm font-semibold text-brand-dark border border-purple-200 rounded-xl">
+          Lihat Paket
+        </a>
+        <button onclick="openModal('Daftar Kelas Board-Line')" class="w-full py-2.5 text-sm font-semibold text-white bg-brand-gradient rounded-xl shadow-sm">
+          Mulai Belajar
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==================== HERO SECTION (HOMEPAGE) ==================== -->
+  <section class="relative overflow-hidden pt-10 pb-16 lg:pt-16 lg:pb-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        <!-- Left Copywriting Column -->
+        <div class="lg:col-span-6 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100/80 border border-purple-200 text-purple-700 text-xs font-bold tracking-wide">
+            <span class="w-2 h-2 rounded-full bg-pink-500 animate-pulse"></span>
+            Platform Belajar Daring Terpadu oleh Edu-Line
+          </div>
+
+          <h1 class="text-3xl sm:text-4xl lg:text-[44px] font-extrabold text-brand-dark leading-[1.18] tracking-tight">
+            Tingkatkan <span class="text-brand-gradient">Nilai Akademis</span> dan Kuasai <span class="text-brand-gradient">Skill Kreatif</span> dalam Satu Platform!
+          </h1>
+
+          <p class="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
+            Belajar pelajaran sekolah sekaligus coding, video editing, hingga menggambar kini lebih seru dan terarah. Didampingi mentor interaktif dengan kurikulum terstruktur, Board-Line bantu kamu paham materi tanpa harus keluar rumah.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            <a href="#pricing" class="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-bold text-white bg-brand-gradient bg-brand-gradient-hover rounded-xl shadow-lg shadow-purple-300/50 transition transform hover:-translate-y-0.5 text-center">
+              Lihat Daftar Kelas
+            </a>
+            <a href="#about" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm sm:text-base font-semibold text-brand-dark hover:text-purple-600 transition">
+              <span class="w-8 h-8 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center">
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
+              </span>
+              Apa itu Board-Line?
+            </a>
+          </div>
+        </div>
+
+        <!-- Right Hero Image Placeholder Column -->
+        <div class="lg:col-span-6 relative">
+          <!-- Decorative Dashed Circle/Frame -->
+          <div class="relative mx-auto max-w-md lg:max-w-lg">
+            <div class="absolute -inset-3 rounded-[2.5rem] border-2 border-dashed border-purple-300/80 pointer-events-none"></div>
+            
+            <!-- SLOT GAMBAR HERO UTAMA -->
+            <div class="relative aspect-[4/3] w-full rounded-[2rem] bg-gradient-to-br from-purple-100 via-pink-50 to-purple-200 overflow-hidden shadow-xl flex items-center justify-center">
+              <!-- Placeholder info saat src masih kosong -->
+              <div class="text-center p-6 text-purple-400 select-none">
+                <svg class="w-12 h-12 mx-auto mb-2 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p class="text-xs font-semibold uppercase tracking-wider">Slot Gambar Hero Utama</p>
+                <p class="text-[11px] opacity-75 mt-1">(Masukkan URL gambar di tag img)</p>
+              </div>
+
+              <!-- MASUKKAN LINK GAMBAR HERO DI ATRIBUT src="" DI BAWAH INI -->
+              <img 
+                src="" 
+                alt="Siswa Belajar Online di Board-Line" 
+                class="absolute inset-0 w-full h-full object-cover z-10 hidden"
+                onload="this.classList.remove('hidden')"
+                onerror="this.classList.add('hidden')"
+              />
+            </div>
+
+            <!-- Floating Badge 1 (Kiri Atas) -->
+            <div class="hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl shadow-lg border border-purple-100 absolute -left-6 top-8 z-20">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center font-bold">
+                📚
+              </div>
+              <div>
+                <p class="text-xs font-extrabold text-brand-dark">Akademik & Hobi</p>
+                <p class="text-[11px] text-gray-500">SD–SMA, Coding & Desain</p>
+              </div>
+            </div>
+
+            <!-- Floating Badge 2 (Kanan Bawah) -->
+            <div class="hidden sm:flex items-center gap-3 bg-white/95 backdrop-blur px-4 py-3 rounded-2xl shadow-lg border border-pink-100 absolute -right-4 bottom-8 z-20">
+              <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center font-bold">
+                ⚡
+              </div>
+              <div>
+                <p class="text-xs font-extrabold text-brand-dark">3–5x Pertemuan</p>
+                <p class="text-[11px] text-gray-500">Jadwal Fleksibel / Minggu</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== GRADIENT CATEGORY STRIP ==================== -->
+  <section class="bg-brand-gradient py-6 shadow-inner">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap items-center justify-center md:justify-between gap-6 text-white/95 font-bold text-sm sm:text-base tracking-wide">
+        <span class="flex items-center gap-2">🎓 Pelajaran SD – SMA</span>
+        <span class="hidden sm:inline opacity-40">•</span>
+        <span class="flex items-center gap-2">💻 Coding & Programming</span>
+        <span class="hidden sm:inline opacity-40">•</span>
+        <span class="flex items-center gap-2">🎬 Video Editing</span>
+        <span class="hidden sm:inline opacity-40">•</span>
+        <span class="flex items-center gap-2">🎨 Menggambar & Ilustrasi</span>
+        <span class="hidden sm:inline opacity-40">•</span>
+        <span class="flex items-center gap-2">🤝 Kelas Live Interaktif</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== ABOUT US & FEATURES SECTION ==================== -->
+  <section id="about" class="py-20 lg:py-28">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
+        
+        <!-- Left 2x2 Image Grid Placeholder (Sesuai Referensi Desain Kedua) -->
+        <div class="lg:col-span-5">
+          <div class="relative p-3 rounded-[2rem] border-2 border-dashed border-pink-300 bg-white/50">
+            <div class="grid grid-cols-2 gap-3">
+              
+              <!-- Grid Gambar 1 -->
+              <div class="relative aspect-square rounded-tl-[1.5rem] rounded-br-[1.5rem] rounded-tr-lg rounded-bl-lg bg-pink-100/80 overflow-hidden flex items-center justify-center">
+                <span class="text-[11px] font-semibold text-pink-400 text-center px-2">Slot Foto 1</span>
+                <!-- MASUKKAN LINK GAMBAR 1 DI SINI -->
+                <img src="" alt="Kelas Akademik" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+              </div>
+
+              <!-- Grid Gambar 2 -->
+              <div class="relative aspect-square rounded-tr-[1.5rem] rounded-bl-[1.5rem] rounded-tl-lg rounded-br-lg bg-purple-100/80 overflow-hidden flex items-center justify-center">
+                <span class="text-[11px] font-semibold text-purple-400 text-center px-2">Slot Foto 2</span>
+                <!-- MASUKKAN LINK GAMBAR 2 DI SINI -->
+                <img src="" alt="Kelas Coding" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+              </div>
+
+              <!-- Grid Gambar 3 -->
+              <div class="relative aspect-square rounded-bl-[1.5rem] rounded-tr-[1.5rem] rounded-tl-lg rounded-br-lg bg-purple-100/80 overflow-hidden flex items-center justify-center">
+                <span class="text-[11px] font-semibold text-purple-400 text-center px-2">Slot Foto 3</span>
+                <!-- MASUKKAN LINK GAMBAR 3 DI SINI -->
+                <img src="" alt="Kelas Video Editing" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+              </div>
+
+              <!-- Grid Gambar 4 -->
+              <div class="relative aspect-square rounded-br-[1.5rem] rounded-tl-[1.5rem] rounded-tr-lg rounded-bl-lg bg-pink-100/80 overflow-hidden flex items-center justify-center">
+                <span class="text-[11px] font-semibold text-pink-400 text-center px-2">Slot Foto 4</span>
+                <!-- MASUKKAN LINK GAMBAR 4 DI SINI -->
+                <img src="" alt="Kelas Menggambar" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Content: About Us + Features -->
+        <div class="lg:col-span-7 space-y-8">
+          <!-- About Us -->
+          <div class="space-y-4">
+            <span class="text-xs font-extrabold uppercase tracking-widest text-purple-600">Tentang Board-Line</span>
+            <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-dark leading-tight">
+              Solusi Belajar Terpadu dari <span class="text-brand-gradient">Edu-Line</span> untuk Sekolah & Bakatmu
+            </h2>
+            <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+              Dikembangkan oleh <strong>Edu-Line</strong>, <strong>Board-Line</strong> hadir sebagai solusi belajar daring terpadu bagi pelajar yang ingin unggul di sekolah sekaligus mengembangkan minat bakatnya. Kami percaya setiap siswa berhak mendapatkan bimbingan berkualitas—mulai dari mata pelajaran akademik hingga keterampilan digital seperti coding, video editing, dan ilustrasi—tanpa terhalang jarak maupun biaya les yang mahal.
+            </p>
+          </div>
+
+          <!-- Features List (ID untuk navigasi) -->
+          <div id="features" class="pt-2 space-y-5">
+            <h3 class="text-lg font-extrabold text-brand-dark">Fitur Unggulan Board-Line</h3>
+
+            <!-- Feature 1: Quiz -->
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-purple-100/80 shadow-sm hover:shadow-md transition">
+              <div class="w-12 h-12 shrink-0 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-base sm:text-lg font-bold text-brand-dark">Quiz Interaktif</h4>
+                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                  Kuis singkat yang muncul di sela-sela materi untuk menguji pemahaman secara langsung agar belajar tidak membosankan.
+                </p>
+              </div>
+            </div>
+
+            <!-- Feature 2: Video Call Interaktif -->
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-pink-100/80 shadow-sm hover:shadow-md transition">
+              <div class="w-12 h-12 shrink-0 rounded-2xl bg-pink-100 text-pink-600 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-base sm:text-lg font-bold text-brand-dark">Video Call Interaktif</h4>
+                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                  Sesi tatap muka daring interaktif di mana siswa bisa berdiskusi dan berkolaborasi langsung bersama mentor maupun teman sekelas.
+                </p>
+              </div>
+            </div>
+
+            <!-- Feature 3: Modul Pembelajaran -->
+            <div class="flex items-start gap-4 p-4 rounded-2xl bg-white border border-purple-100/80 shadow-sm hover:shadow-md transition">
+              <div class="w-12 h-12 shrink-0 rounded-2xl bg-purple-100 text-purple-600 flex items-center justify-center">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <div>
+                <h4 class="text-base sm:text-lg font-bold text-brand-dark">Modul Pembelajaran</h4>
+                <p class="text-sm text-gray-600 mt-1 leading-relaxed">
+                  Materi belajar yang up-to-date dan sistematis (akademik maupun hobi) yang mudah dipahami bahkan untuk pemula.
+                </p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== PRICING / PACKAGES SECTION (GRADIENT BAND) ==================== -->
+  <section id="pricing" class="bg-brand-gradient py-20 lg:py-24 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Section Header -->
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-14">
+        <span class="inline-block px-3.5 py-1 rounded-full bg-white/20 backdrop-blur-sm text-xs font-bold uppercase tracking-wider">
+          Pilihan Paket Belajar
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+          Pilih Paket Sesuai Target Belajarmu
+        </h2>
+        <p class="text-white/90 text-sm sm:text-base">
+          Harga di bawah ini berlaku <strong>per bulan</strong> dengan jadwal fleksibel <strong>3–5x pertemuan setiap minggu</strong>.
+        </p>
+      </div>
+
+      <!-- 3 Pricing Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch">
+        
+        <!-- Card 1: Paket Coba-coba -->
+        <div class="bg-white text-brand-dark rounded-3xl p-7 shadow-xl flex flex-col justify-between transition transform hover:-translate-y-1">
+          <div>
+            <!-- Optional Thumbnail Image Slot -->
+            <div class="relative h-36 w-full rounded-2xl bg-purple-50 mb-5 overflow-hidden flex items-center justify-center">
+              <span class="text-xs font-semibold text-purple-400">Slot Gambar Paket 1</span>
+              <!-- MASUKKAN LINK GAMBAR PAKET COBA-COBA DI SINI -->
+              <img src="" alt="Paket Coba-coba" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+            </div>
+
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold">
+                Starter
+              </span>
+              <span class="text-xs font-semibold text-gray-500">Maks. 1 Kelas</span>
+            </div>
+
+            <h3 class="text-xl font-extrabold text-brand-dark">Paket Coba-coba</h3>
+            <p class="text-xs text-gray-500 mt-1">Cocok untuk mulai mencoba pengalaman belajar interaktif di Board-Line.</p>
+
+            <div class="my-6 pb-6 border-b border-gray-100">
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-extrabold text-brand-dark">Rp50.000</span>
+                <span class="text-sm font-medium text-gray-500">/bulan</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-sm text-gray-600 mb-8">
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Akses <strong>1 kelas maksimal</strong> (Akademik / Hobi)</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span><strong>3–5x pertemuan</strong> per minggu</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Video call interaktif & kuis di tengah sesi</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Akses modul pembelajaran digital</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="openModal('Paket Coba-coba (Rp50.000/bulan)')" class="w-full py-3.5 px-5 rounded-xl border-2 border-purple-500 text-purple-600 font-bold text-sm hover:bg-purple-50 transition">
+            Pilih Paket Coba-coba
+          </button>
+        </div>
+
+        <!-- Card 2: Paket Explorer (Highlighted) -->
+        <div class="bg-white text-brand-dark rounded-3xl p-7 shadow-2xl ring-4 ring-white/40 flex flex-col justify-between relative transition transform hover:-translate-y-1">
+          <div class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-brand-dark text-white text-[11px] font-extrabold uppercase tracking-wider px-4 py-1 rounded-full shadow">
+            Paling Diminati
+          </div>
+
+          <div>
+            <!-- Optional Thumbnail Image Slot -->
+            <div class="relative h-36 w-full rounded-2xl bg-pink-50 mb-5 overflow-hidden flex items-center justify-center">
+              <span class="text-xs font-semibold text-pink-400">Slot Gambar Paket 2</span>
+              <!-- MASUKKAN LINK GAMBAR PAKET EXPLORER DI SINI -->
+              <img src="" alt="Paket Explorer" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+            </div>
+
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-3 py-1 rounded-full bg-pink-100 text-pink-600 text-xs font-bold">
+                Kombinasi Ideal
+              </span>
+              <span class="text-xs font-semibold text-gray-500">Maks. 3 Kelas</span>
+            </div>
+
+            <h3 class="text-xl font-extrabold text-brand-dark">Paket Explorer</h3>
+            <p class="text-xs text-gray-500 mt-1">Gabungkan pelajaran akademik sekolah dengan kelas skill kreatif favoritmu.</p>
+
+            <div class="my-6 pb-6 border-b border-gray-100">
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-extrabold text-brand-gradient">Rp300.000</span>
+                <span class="text-sm font-medium text-gray-500">/bulan</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-sm text-gray-600 mb-8">
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Akses hingga <strong>3 kelas maksimal</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span><strong>3–5x pertemuan</strong> per minggu</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Bebas kombinasi kelas Akademik & Hobi</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-pink-100 text-pink-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Jadwal fleksibel & modul lengkap</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="openModal('Paket Explorer (Rp300.000/bulan)')" class="w-full py-3.5 px-5 rounded-xl bg-brand-gradient bg-brand-gradient-hover text-white font-bold text-sm shadow-lg shadow-purple-200 transition">
+            Pilih Paket Explorer
+          </button>
+        </div>
+
+        <!-- Card 3: Paket Ambis -->
+        <div class="bg-white text-brand-dark rounded-3xl p-7 shadow-xl flex flex-col justify-between transition transform hover:-translate-y-1">
+          <div>
+            <!-- Optional Thumbnail Image Slot -->
+            <div class="relative h-36 w-full rounded-2xl bg-purple-50 mb-5 overflow-hidden flex items-center justify-center">
+              <span class="text-xs font-semibold text-purple-400">Slot Gambar Paket 3</span>
+              <!-- MASUKKAN LINK GAMBAR PAKET AMBIS DI SINI -->
+              <img src="" alt="Paket Ambis" class="absolute inset-0 w-full h-full object-cover z-10 hidden" onload="this.classList.remove('hidden')" onerror="this.classList.add('hidden')" />
+            </div>
+
+            <div class="flex items-center justify-between mb-3">
+              <span class="px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold">
+                All-in-One
+              </span>
+              <span class="text-xs font-semibold text-gray-500">Maks. 5 Kelas</span>
+            </div>
+
+            <h3 class="text-xl font-extrabold text-brand-dark">Paket Ambis</h3>
+            <p class="text-xs text-gray-500 mt-1">Belajar maksimal berbagai mata pelajaran sekaligus eksplorasi skill baru.</p>
+
+            <div class="my-6 pb-6 border-b border-gray-100">
+              <div class="flex items-baseline gap-1">
+                <span class="text-3xl sm:text-4xl font-extrabold text-brand-dark">Rp500.000</span>
+                <span class="text-sm font-medium text-gray-500">/bulan</span>
+              </div>
+            </div>
+
+            <ul class="space-y-3 text-sm text-gray-600 mb-8">
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Akses hingga <strong>5 kelas maksimal</strong></span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span><strong>3–5x pertemuan</strong> per minggu</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Full akses semua kategori kelas</span>
+              </li>
+              <li class="flex items-center gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center text-xs font-bold">✓</span>
+                <span>Prioritas pengaturan jadwal & modul</span>
+              </li>
+            </ul>
+          </div>
+
+          <button onclick="openModal('Paket Ambis (Rp500.000/bulan)')" class="w-full py-3.5 px-5 rounded-xl border-2 border-purple-500 text-purple-600 font-bold text-sm hover:bg-purple-50 transition">
+            Pilih Paket Ambis
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FAQ SECTION (ACCORDION SESUAI REFERENSI 1) ==================== -->
+  <section id="faq" class="py-20 lg:py-24 bg-purple-50/60">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto space-y-3 mb-12">
+        <span class="text-xs font-extrabold uppercase tracking-widest text-purple-600">Pertanyaan Umum</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-brand-dark">
+          Frequently Asked <span class="text-brand-gradient">Questions</span>
+        </h2>
+        <p class="text-gray-600 text-sm sm:text-base">
+          Klik pertanyaan di bawah ini untuk mengetahui informasi lengkap seputar cara belajar di Board-Line.
+        </p>
+      </div>
+
+      <!-- Accordion Container -->
+      <div class="space-y-4" id="faq-accordion">
+        
+        <!-- FAQ 1 (Default Active agar langsung terlihat tampilan expanded seperti gambar 1) -->
+        <div class="faq-item active bg-white rounded-2xl border border-purple-100/90 shadow-sm hover:shadow-md transition">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none">
+            <span class="text-base sm:text-lg font-bold text-brand-dark">
+              Apa itu Board-Line?
+            </span>
+            <svg class="faq-icon w-5 h-5 text-purple-600 shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <div class="px-6 pb-5 pt-1 text-sm sm:text-base text-gray-600 leading-relaxed border-t border-gray-50">
+                Board-Line adalah platform belajar online di mana kamu bisa menemukan berbagai kelas akademik sampai hobi dengan sistem pembelajaran yang menyenangkan.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 2 -->
+        <div class="faq-item bg-white rounded-2xl border border-purple-100/90 shadow-sm hover:shadow-md transition">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none">
+            <span class="text-base sm:text-lg font-bold text-brand-dark">
+              Kelas apa saja yang tersedia di Board-Line?
+            </span>
+            <svg class="faq-icon w-5 h-5 text-purple-600 shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <div class="px-6 pb-5 pt-1 text-sm sm:text-base text-gray-600 leading-relaxed border-t border-gray-50">
+                Tersedia pelajaran akademis dari SD hingga SMA dan kelas kreatif seperti coding, menggambar, video editing, dan lainnya yang bisa dilihat di katalog.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 3 -->
+        <div class="faq-item bg-white rounded-2xl border border-purple-100/90 shadow-sm hover:shadow-md transition">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none">
+            <span class="text-base sm:text-lg font-bold text-brand-dark">
+              Perangkat apa yang dibutuhkan untuk mengakses Board-Line?
+            </span>
+            <svg class="faq-icon w-5 h-5 text-purple-600 shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <div class="px-6 pb-5 pt-1 text-sm sm:text-base text-gray-600 leading-relaxed border-t border-gray-50">
+                Saat ini Board-Line dapat diakses melalui browser di PC Desktop maupun Laptop untuk pengalaman kolaborasi real-time dan layar yang lebih maksimal.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 4 -->
+        <div class="faq-item bg-white rounded-2xl border border-purple-100/90 shadow-sm hover:shadow-md transition">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none">
+            <span class="text-base sm:text-lg font-bold text-brand-dark">
+              Apakah jadwal pembelajaran bisa diatur?
+            </span>
+            <svg class="faq-icon w-5 h-5 text-purple-600 shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <div class="px-6 pb-5 pt-1 text-sm sm:text-base text-gray-600 leading-relaxed border-t border-gray-50">
+                Jadwal pembelajaran kamu bisa diatur secara fleksibel sesuai dengan kemauan dan waktu luang kamu.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- FAQ 5 -->
+        <div class="faq-item bg-white rounded-2xl border border-purple-100/90 shadow-sm hover:shadow-md transition">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between gap-4 px-6 py-5 text-left focus:outline-none">
+            <span class="text-base sm:text-lg font-bold text-brand-dark">
+              Bagaimana cara belajar di Board-Line?
+            </span>
+            <svg class="faq-icon w-5 h-5 text-purple-600 shrink-0 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7" />
+            </svg>
+          </button>
+          <div class="faq-content">
+            <div class="faq-inner">
+              <div class="px-6 pb-5 pt-1 text-sm sm:text-base text-gray-600 leading-relaxed border-t border-gray-50">
+                Kamu bisa mulai dari melihat daftar kelas dan memilih paket yang sesuai dengan kemauanmu. Lalu kamu bisa memilih jadwal yang tersedia dan langsung mulai belajar.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== CONTACT & FINAL CTA SECTION ==================== -->
+  <section id="contact" class="py-20">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-white rounded-[2.5rem] p-8 sm:p-12 lg:p-14 border border-purple-100 shadow-xl grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Left CTA Copy -->
+        <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+          <span class="inline-block px-3.5 py-1 rounded-full bg-pink-100 text-pink-600 text-xs font-bold">
+            Mulai Sekarang
+          </span>
+          <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-dark leading-tight">
+            Siap Mulai Belajar Seru Bareng <span class="text-brand-gradient">Board-Line?</span>
+          </h2>
+          <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+            Pilih kelas pertamamu hari ini dan rasakan pengalaman belajar interaktif dari rumah!
+          </p>
+
+          <div class="pt-2 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <button onclick="openModal('Pendaftaran Kelas Board-Line')" class="w-full sm:w-auto px-7 py-3.5 text-sm sm:text-base font-bold text-white bg-brand-gradient bg-brand-gradient-hover rounded-xl shadow-lg shadow-purple-200 transition">
+              Daftar Kelas Sekarang
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Contact Card -->
+        <div class="lg:col-span-5 bg-purple-50/80 rounded-3xl p-6 sm:p-8 border border-purple-100 space-y-5">
+          <div>
+            <h3 class="text-lg font-extrabold text-brand-dark">Butuh bantuan memilih paket?</h3>
+            <p class="text-xs sm:text-sm text-gray-600 mt-1">
+              Hubungi tim kami untuk konsultasi kelas dan jadwal yang paling pas buat kamu:
+            </p>
+          </div>
+
+          <div class="space-y-3.5 text-sm">
+            <a href="mailto:info@boardline.com" class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-purple-100 hover:border-purple-300 transition">
+              <div class="w-10 h-10 rounded-xl bg-purple-100 text-purple-600 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400 font-medium">Email</p>
+                <p class="font-bold text-brand-dark">info@boardline.com</p>
+              </div>
+            </a>
+
+            <a href="tel:0212562345" class="flex items-center gap-3.5 p-3.5 rounded-2xl bg-white border border-purple-100 hover:border-pink-300 transition">
+              <div class="w-10 h-10 rounded-xl bg-pink-100 text-pink-600 flex items-center justify-center shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                </svg>
+              </div>
+              <div>
+                <p class="text-xs text-gray-400 font-medium">WhatsApp / Telp</p>
+                <p class="font-bold text-brand-dark">(021) 2562-345</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="bg-brand-gradient text-white py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+      <div>
+        <span class="text-xl font-extrabold tracking-tight">Board-Line.</span>
+        <p class="text-xs text-white/85 mt-1">Dikembangkan oleh Edu-Line • Platform Belajar Akademik & Skill Kreatif</p>
+      </div>
+      <p class="text-xs text-white/85">
+        &copy; 2026 Board-Line by Edu-Line. All rights reserved.
+      </p>
+    </div>
+  </footer>
+
+  <!-- ==================== MODAL PENDAFTARAN INTERAKTIF ==================== -->
+  <div id="register-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+    <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative animate-fadeIn">
+      <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400 hover:text-gray-700" aria-label="Tutup">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+
+      <span class="inline-block px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-bold mb-2">
+        Formulir Pendaftaran Cepat
+      </span>
+      <h3 id="modal-title" class="text-xl font-extrabold text-brand-dark">Daftar Kelas Board-Line</h3>
+      <p class="text-xs text-gray-500 mt-1 mb-5">Isi data singkat di bawah ini untuk memilih kelas dan jadwal belajarmu.</p>
+
+      <form onsubmit="handleFormSubmit(event)" class="space-y-4">
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Nama Lengkap</label>
+          <input type="text" required placeholder="Contoh: Anton" class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 focus:border-purple-500 focus:outline-none" />
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">Jenjang / Kategori Minat</label>
+          <select class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 focus:border-purple-500 focus:outline-none bg-white">
+            <option>Pelajaran Akademik (SD / SMP / SMA)</option>
+            <option>Skill Kreatif — Coding</option>
+            <option>Skill Kreatif — Video Editing</option>
+            <option>Skill Kreatif — Menggambar / Ilustrasi</option>
+            <option>Kombinasi Akademik & Skill Kreatif</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs font-bold text-gray-700 mb-1">No. WhatsApp / Email</label>
+          <input type="text" required placeholder="0812xxxx / email@kamu.com" class="w-full px-4 py-2.5 text-sm rounded-xl border border-gray-200 focus:border-purple-500 focus:outline-none" />
+        </div>
+        <button type="submit" class="w-full py-3 rounded-xl bg-brand-gradient bg-brand-gradient-hover text-white font-bold text-sm shadow-md transition">
+          Konfirmasi & Pilih Jadwal
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ==================== JAVASCRIPT INTERAKTIVITAS ==================== -->
+  <script>
+    // 1. Mobile Navigation Toggle
+    const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+    });
+
+    // Tutup menu mobile saat link diklik
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+      });
+    });
+
+    // 2. FAQ Accordion (Klik pertanyaan untuk expand/collapse jawaban)
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+      const trigger = item.querySelector('.faq-trigger');
+      trigger.addEventListener('click', () => {
+        const isCurrentlyActive = item.classList.contains('active');
+        
+        // Tutup semua item lain agar rapi seperti accordion standar
+        faqItems.forEach(otherItem => otherItem.classList.remove('active'));
+
+        // Buka item yang diklik jika sebelumnya tertutup
+        if (!isCurrentlyActive) {
+          item.classList.add('active');
+        }
+      });
+    });
+
+    // 3. Modal Pendaftaran Interaktif (Untuk demo presentasi ke dosen)
+    const modal = document.getElementById('register-modal');
+    const modalTitle = document.getElementById('modal-title');
+
+    function openModal(packageName) {
+      modalTitle.textContent = packageName;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    function handleFormSubmit(e) {
+      e.preventDefault();
+      alert('Terima kasih! Tim Board-Line telah menerima pilihanmu dan akan segera mengirimkan akses pemilihan jadwal.');
+      closeModal();
+      e.target.reset();
+    }
+  </script>
+</body>
 </html>
